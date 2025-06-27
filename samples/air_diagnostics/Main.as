@@ -167,9 +167,12 @@ package
 			});
 			_diagInfo.addEventListener(DiagnosticEvent.ERROR_DETAILS, function(e:DiagnosticEvent) : void {
 				trace("DIAGNOSTIC ERROR: " + e.description + " = " + e.metric);
+				trace("Checking for a worker log file...");
+				var fWorker : File = _diagInfo.getLogFile("worker");
+				if (fWorker && fWorker.exists) trace("Log file size is " + fWorker.size);
 				if (e.description.startsWith("Throwing ChannelClosed error"))
 				{
-					trace(" -- checking for worker log --");
+					trace(" -- reading worker log --");
 					var log : Vector.<String> = _diagInfo.getLog("worker");
 					if (log) for (var i : uint = 0; i < log.length; i++) trace(log[i]);
 					trace(" -- end of worker log --");
